@@ -26,7 +26,28 @@ class ImageGalleryViewController: UIViewController {
             collectionView.dropDelegate = self
             collectionView.dragDelegate = self
 
-            // later - to add pinch gesture
+            // UI Gesturese
+            let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchToResize(gesture:)))
+            collectionView.addGestureRecognizer(pinchGesture)
+        }
+    }
+
+    /// it will scale the width of the collection view cells accordingly
+    @objc private func pinchToResize(gesture recognizer: UIPinchGestureRecognizer) {
+        // when the state changes
+        if recognizer.state == .changed {
+            //
+            cellWidth *= recognizer.scale
+            recognizer.scale = 1.0
+
+            if cellWidth > collectionView.bounds.size.width {
+                cellWidth = collectionView.bounds.size.height
+                // min cell width
+            } else if cellWidth < 50.0 {
+                cellWidth = 50.0
+            }
+            // triggers a layout update
+            collectionView.collectionViewLayout.invalidateLayout()
         }
     }
 
