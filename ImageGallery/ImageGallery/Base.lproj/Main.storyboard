@@ -104,16 +104,49 @@
             <objects>
                 <viewController id="tfO-Pi-0Mw" customClass="ImageViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4df-sj-d9t">
-                        <rect key="frame" x="0.0" y="0.0" width="1045.5" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1045" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nkk-iB-uog">
+                                <rect key="frame" x="0.0" y="74" width="1045.5" height="930"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KcV-7B-y5d">
+                                        <rect key="frame" x="0.0" y="0.0" width="1045.5" height="930"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1045.5" id="9Q8-Gm-bJm"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="KcV-7B-y5d" firstAttribute="leading" secondItem="nkk-iB-uog" secondAttribute="leading" id="GQm-qd-yiy"/>
+                                    <constraint firstAttribute="bottom" secondItem="KcV-7B-y5d" secondAttribute="bottom" id="Rp2-LT-0fk"/>
+                                    <constraint firstAttribute="trailing" secondItem="KcV-7B-y5d" secondAttribute="trailing" constant="-85.5" id="T6N-jp-Vwr"/>
+                                    <constraint firstItem="KcV-7B-y5d" firstAttribute="top" secondItem="cCM-kI-L4F" secondAttribute="top" id="m3c-it-YmJ"/>
+                                    <constraint firstItem="KcV-7B-y5d" firstAttribute="bottom" secondItem="JMW-Mk-3a9" secondAttribute="bottom" id="smn-S3-9Hq"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="cCM-kI-L4F"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="JMW-Mk-3a9"/>
+                            </scrollView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JrI-mA-HK9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nkk-iB-uog" firstAttribute="centerX" secondItem="4df-sj-d9t" secondAttribute="centerX" id="Sry-Z7-Oz6"/>
+                            <constraint firstItem="JrI-mA-HK9" firstAttribute="trailing" secondItem="nkk-iB-uog" secondAttribute="trailing" id="avZ-Ar-x63"/>
+                            <constraint firstItem="nkk-iB-uog" firstAttribute="bottom" secondItem="JrI-mA-HK9" secondAttribute="bottom" id="dua-88-rY8"/>
+                            <constraint firstItem="nkk-iB-uog" firstAttribute="leading" secondItem="JrI-mA-HK9" secondAttribute="leading" id="ktw-qN-QJb"/>
+                            <constraint firstItem="nkk-iB-uog" firstAttribute="top" secondItem="JrI-mA-HK9" secondAttribute="top" id="nQU-ZD-zd2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sK5-vd-NuH"/>
+                    <connections>
+                        <outlet property="scrollView" destination="nkk-iB-uog" id="ihq-jC-rBr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wkO-X1-xKj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2399" y="-214"/>
+            <point key="canvasLocation" x="2398.6822840409955" y="-214.453125"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="heA-Si-2eX">
