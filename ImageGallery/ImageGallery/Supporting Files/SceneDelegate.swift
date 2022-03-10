@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  ImageGallery
 //
-//  Created by Rona Bompa on 07.03.2022.
+//  Created by Rona Bompa on 10.03.2022.
 //
 
 import UIKit

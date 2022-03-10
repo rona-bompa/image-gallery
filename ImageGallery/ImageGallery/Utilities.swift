@@ -4,7 +4,6 @@
 //  Created by CS193p Instructor.
 //  Copyright © 2017 Stanford University. All rights reserved.
 //
-
 import UIKit
 
 class ImageFetcher
@@ -31,19 +30,23 @@ class ImageFetcher
     
     func fetch(_ url: URL) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let data = try? Data(contentsOf: url.imageURL) {
-                if self != nil {
-                    // yes, it's ok to create a UIImage off the main thread
-                    if let image = UIImage(data: data) {
-                        self?.handler(url, image)
+            do {
+                let data = try Data(contentsOf: url.imageURL)
+                    if self != nil {
+                        // yes, it's ok to create a UIImage off the main thread
+                        if let image = UIImage(data: data), !FileManager.default.fileExists(atPath: UIImage.urlToStoreLocallyAsJPEG(named: url.uniqueLocalImageIdentifier)!.path) {
+                            image.storeLocallyAsJPEG(named: url.uniqueLocalImageIdentifier)
+                            self?.handler(url, image)
+                        } else {
+                            self?.fetchFailed = true
+                        }
                     } else {
-                        self?.fetchFailed = true
+                        print("ImageFetcher: fetch returned but I've left the heap -- ignoring result.")
                     }
-                } else {
-                    print("ImageFetcher: fetch returned but I've left the heap -- ignoring result.")
-                }
-            } else {
+            } catch let error {
+                print(error)
                 self?.fetchFailed = true
+                
             }
         }
     }
@@ -55,6 +58,10 @@ class ImageFetcher
     init(fetch url: URL, handler: @escaping (URL, UIImage) -> Void) {
         self.handler = handler
         fetch(url)
+    }
+    
+    deinit {
+        print("Deinit")
     }
     
     // Private Implementation
@@ -69,8 +76,18 @@ class ImageFetcher
 }
 
 extension URL {
+    
+    var uniqueLocalImageIdentifier: String {
+        if self.absoluteString.contains("data:image") {
+            return "\(self.absoluteString.hashValue)"
+        } else {
+            return self.path
+        }
+    }
+    
     var imageURL: URL {
-        if let url = UIImage.urlToStoreLocallyAsJPEG(named: self.path) {
+        if let url = UIImage.urlToStoreLocallyAsJPEG(named: uniqueLocalImageIdentifier),
+           FileManager.default.fileExists(atPath: url.path) {
             // this was created using UIImage.storeLocallyAsJPEG
             return url
         } else {
@@ -118,8 +135,9 @@ extension UIImage
         return nil
     }
     
+    @discardableResult
     func storeLocallyAsJPEG(named name: String) -> URL? {
-        if let imageData = UIImageJPEGRepresentation(self, 1.0) {
+        if let imageData = self.jpegData(compressionQuality: 1.0) {
             if let url = UIImage.urlToStoreLocallyAsJPEG(named: name) {
                 do {
                     try imageData.write(to: url)
@@ -165,7 +183,7 @@ extension NSAttributedString {
 }
 
 extension String {
-    func attributedString(withTextStyle style: UIFontTextStyle, ofSize size: CGFloat) -> NSAttributedString {
+    func attributedString(withTextStyle style: UIFont.TextStyle, ofSize size: CGFloat) -> NSAttributedString {
         let font = UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(size))
         return NSAttributedString(string: self, attributes: [.font:font])
     }
