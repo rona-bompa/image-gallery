@@ -15,7 +15,7 @@ struct ImageGallery {
     }
 
     struct Image {
-        let url: String
+        let url: URL
         let aspectRatio: AspectRatio
     }
 

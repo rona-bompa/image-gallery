@@ -9,6 +9,14 @@ import UIKit
 
 class ImageViewController: UIViewController {
 
+    var galleryImage: ImageGallery.Image? {
+        didSet {
+//            if galleryItem != nil {
+//                fetchImagE(galleryImage!.imageURL)
+//            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
